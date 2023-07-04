@@ -15,13 +15,10 @@ export default function SitePage() {
     return <div>Invalid site id</div>;
   }
 
-  const [site, setSite] = useState<Site | null>(null);
-
   useEffect(() => {
     setLoading(true);
     Promise.all([getSite(id), getRegisters(id)])
       .then(([siteData, registerData]) => {
-        setSite(siteData);
         setSiteName(siteData.name);
         setRegisters(registerData);
         setLoading(false);

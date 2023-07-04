@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { Register } from "../../types/Register";
 
 interface GaugeProps {
