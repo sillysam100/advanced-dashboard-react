@@ -1,6 +1,6 @@
-export interface Site{
-    _id: string;
-    name: string;
-    registers: [];
-    userId: string;
+export interface Site {
+  _id: string;
+  name: string;
+  registers: [];
+  userId: string;
 }

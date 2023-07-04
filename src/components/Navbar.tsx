@@ -1,22 +1,45 @@
-import FullWidthProgress from "./FullWidthProgress"
-import { Link } from "react-router-dom"
+import FullWidthProgress from "./FullWidthProgress";
+import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
-    return (
-        <div className="navbar shadow-lg mb-0 grid mx-0 px-0">
-            <div className="px-2">
-                <div className="flex-1">
-                    <Link to="/" className="text-2xl font-bold btn btn-primary text-white ">Dashboard</Link>
-                </div>
-                <div className="flex-none">
-                    <button className="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
-                    </button>
-                </div>
+  const { siteName } = useAdvancedDashboardProvider();
+
+  return (
+    <nav className="shadow-lg">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <FullWidthProgress />
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <div className="-ml-2 mr-2 flex items-center">
+              <Link to="/" className="text-2xl font-bold">
+                Dashboard
+              </Link>
             </div>
-            <div className="m-0">
-                <FullWidthProgress enabled={false} />
+          </div>
+          <div className="flex items-center">
+            <div className="ml-10 flex items-baseline space-x-4">
+              <h1 className="text-2xl font-bold">{siteName}</h1>
             </div>
+          </div>
+          <div className="flex items-center">
+            <div className="flex-none">
+              <ul className="menu menu-horizontal px-1">
+                <li>
+                  <details>
+                    <summary>Menu</summary>
+                    <ul className="p-2 bg-base-100">
+                      <li>
+                        <a>Logout</a>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-    )
+      </div>
+    </nav>
+  );
 }
