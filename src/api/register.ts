@@ -1,7 +1,7 @@
 import { apiGet } from "../utils/api";
-import { Register } from "../types/Register";
+import { IRegister } from "../types/Register";
 
-export function getRegisters(siteId: string): Promise<Register[]> {
+export function getRegisters(siteId: string): Promise<IRegister[]> {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await apiGet(`/api/registers/?siteId=${siteId}`);

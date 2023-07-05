@@ -1,9 +1,7 @@
 import { apiGet } from "../utils/api";
-import { Site } from "../types/Site";
+import { ISite } from "../types/Site";
 
-export async function getSites(): Promise<Site[]> {
-  const userId = localStorage.getItem("userId");
-
+export async function getSites(): Promise<ISite[]> {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await apiGet(`/api/sites/`);
@@ -15,9 +13,7 @@ export async function getSites(): Promise<Site[]> {
   });
 }
 
-export async function getSite(id: string): Promise<Site> {
-  const userId = localStorage.getItem("userId");
-
+export async function getSite(id: string): Promise<ISite> {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await apiGet(`/api/site/?siteId=${id}`);
