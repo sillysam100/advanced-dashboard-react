@@ -2,8 +2,10 @@ import { createContext, useState, useContext, ReactNode } from "react";
 
 export const AdvancedDashboardContext = createContext({
   loading: false,
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
   setLoading: (loading: boolean) => {},
   siteName: "",
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
   setSiteName: (siteName: string) => {},
 });
 
