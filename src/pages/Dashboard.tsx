@@ -1,17 +1,17 @@
 import Sites from "../components/Sites";
 import { getSites } from "../api/site";
-import { Site } from "../types/Site";
+import { ISite } from "../types/Site";
 import { SetStateAction, useEffect, useState } from "react";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 
 const DashboardPage = () => {
-  const [sites, setSites] = useState<Site[]>([]);
+  const [sites, setSites] = useState<ISite[]>([]);
   const { setLoading, setSiteName } = useAdvancedDashboardProvider();
 
   useEffect(() => {
     setLoading(true);
     setSiteName("");
-    getSites().then((res: SetStateAction<Site[]>) => {
+    getSites().then((res: SetStateAction<ISite[]>) => {
       setSites(res);
       setLoading(false);
     });

@@ -1,7 +1,7 @@
-import { Register } from "../../types/Register";
+import { IRegister } from "../../types/Register";
 
 interface GaugeProps {
-  register: Register;
+  register: IRegister;
   type: "temperature";
 }
 
