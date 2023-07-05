@@ -30,7 +30,7 @@ function Register({ register, onChange }: RegisterProps) {
     return (
       <div className="stats shadow">
         <div className="stat">
-          <div className="stat-title  font-semibold">{register.name}</div>
+          <div className="stat-title font-semibold text-black">{register.name}</div>
           <div className="stat-value flex">
             <input
               type="checkbox"

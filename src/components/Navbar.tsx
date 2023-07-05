@@ -18,9 +18,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <h1 className="text-2xl font-bold">{siteName}</h1>
-            </div>
+            <h1 className="text-2xl font-bold">{siteName}</h1>
           </div>
           <div className="flex items-center">
             <div className="flex-none">
