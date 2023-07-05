@@ -1,3 +1,3 @@
-export interface Value{
-    _id: string;
+export interface IValue {
+  _id: string;
 }

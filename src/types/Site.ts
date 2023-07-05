@@ -1,4 +1,4 @@
-export interface Site {
+export interface ISite {
   _id: string;
   name: string;
   registers: [];

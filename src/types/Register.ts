@@ -1,4 +1,4 @@
-export interface Register {
+export interface IRegister {
   _id: string;
   name: string;
   value: string;
