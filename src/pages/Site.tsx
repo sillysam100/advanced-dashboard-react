@@ -55,7 +55,7 @@ export default function SitePage() {
         </div>
       </div>
       <div className="mt-3">
-        {pageId.length > 1 && <Page pageId={pageId} />}
+        {pageId.length > 1 && <Page pageId={pageId} page={pages.find(page => page._id === pageId)} />}
       </div>
     </div>
   );

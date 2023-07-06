@@ -4,12 +4,14 @@ import { IRegister } from "../types/Register";
 import Register from "../components/Register";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import ReloadPagePopup from "../components/ReloadPagePopup";
+import { IPage } from "../types/Page";
 
 interface PageProps {
     pageId: string;
+    page?: IPage;
 }
 
-export default function Page({ pageId }: PageProps) {
+export default function Page({ pageId, page }: PageProps) {
     const [registers, setRegisters] = useState<IRegister[]>([]);
     const [showReloadPagePopup, setShowReloadPagePopup] = useState(false);
     const { setLoading, setSiteName } = useAdvancedDashboardProvider();
@@ -89,10 +91,10 @@ export default function Page({ pageId }: PageProps) {
                 <Register
                     key={register._id}
                     register={register}
+                    layout={page?.layout.find((layout) => layout.registerId === register._id)}
                     onChange={handleRegisterChange}
                 />
             ))}
         </div>
     );
-
 }

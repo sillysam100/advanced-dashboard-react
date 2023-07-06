@@ -1,4 +1,4 @@
-interface LayoutEntry {
+export interface ILayoutEntry {
     registerId: string;
     cols: number;
     rows: number;
@@ -10,5 +10,5 @@ export interface IPage {
     siteId: string;
     name: string;
     registers: string[];
-    layout: LayoutEntry[];
+    layout: ILayoutEntry[];
 }
