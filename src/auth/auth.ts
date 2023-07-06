@@ -4,7 +4,6 @@ export async function validateKey(): Promise<boolean> {
   try {
     const response = await apiPost("/api/user/validate", {});
     const res = await response.json();
-    console.log(res);
     if (res.message === "Token is valid.") {
       return true;
     } else {

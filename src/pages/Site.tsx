@@ -12,7 +12,6 @@ export default function SitePage() {
   const [pageId, setPageId] = useState<string>("");
   const { setLoading, setSiteName } = useAdvancedDashboardProvider();
 
-
   if (!id) {
     return <div>Invalid site id</div>;
   }
@@ -20,7 +19,7 @@ export default function SitePage() {
   useEffect(() => {
     setLoading(true);
     getPages(id).then((pages) => {
-      setPages(pages)
+      setPages(pages);
       setLoading(false);
     });
   }, [id]);
@@ -31,13 +30,13 @@ export default function SitePage() {
     });
   }, [id]);
 
-
   useEffect(() => {
     if (pages.length > 0) {
       setPageId(pages[0]._id || "");
     }
   }, [pages]);
 
+  const currentPage = pages.find((page) => page._id === pageId);
 
   return (
     <div>
@@ -46,7 +45,9 @@ export default function SitePage() {
           {pages.map((page) => (
             <div
               key={page._id}
-              className={`tab tab-bordered ${pageId === page._id ? "tab-active" : ""}`}
+              className={`tab tab-bordered ${
+                pageId === page._id ? "tab-active" : ""
+              }`}
               onClick={() => setPageId(page._id || "")}
             >
               {page.name}
@@ -55,7 +56,9 @@ export default function SitePage() {
         </div>
       </div>
       <div className="mt-3">
-        {pageId.length > 1 && <Page pageId={pageId} page={pages.find(page => page._id === pageId)} />}
+        {pageId.length > 1 && currentPage && (
+          <Page pageId={pageId} page={currentPage} />
+        )}
       </div>
     </div>
   );

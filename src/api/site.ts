@@ -16,7 +16,7 @@ export async function getSites(): Promise<ISite[]> {
 export async function getSite(id: string): Promise<ISite> {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await apiGet(`/api/site/?siteId=${id}`);
+      const response = await apiGet(`/api/site/${id}`);
       const res = await response.json();
       resolve(res);
     } catch (err) {

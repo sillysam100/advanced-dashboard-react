@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  safelist: [/^grid-cols-/, /^grid-rows-/],
+  safelist: [/^col-span-/, /^row-span-/],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",

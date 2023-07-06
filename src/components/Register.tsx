@@ -16,12 +16,13 @@ function Register({ register, layout, onChange }: RegisterProps) {
     });
   };
 
-  console.log(layout)
-
-
   if (register.controlType === "read") {
     return (
-      <div className={`stats shadow grid-cols-${layout?.cols} grid-rows-${layout?.rows}`}>
+      <div
+        className={`stats shadow col-span-${layout?.cols || 2} row-span-${
+          layout?.rows || 2
+        }`}
+      >
         <div className="stat">
           <div className="stat-title  font-semibold">{register.name}</div>
           <div className="stat-value flex">
@@ -33,9 +34,15 @@ function Register({ register, layout, onChange }: RegisterProps) {
     );
   } else if (register.controlType === "write") {
     return (
-      <div className={`stats shadow grid-cols-${layout?.cols} grid-rows-${layout?.rows}`}>
+      <div
+        className={`stats shadow col-span-${layout?.cols || 2} row-span-${
+          layout?.rows || 2
+        }`}
+      >
         <div className="stat">
-          <div className="stat-title font-semibold text-black">{register.name}</div>
+          <div className="stat-title font-semibold text-black">
+            {register.name}
+          </div>
           <div className="stat-value flex">
             <input
               type="checkbox"
