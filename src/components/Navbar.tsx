@@ -1,6 +1,7 @@
 import FullWidthProgress from "./FullWidthProgress";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import { Link } from "react-router-dom";
+import { logUserOut } from "../auth/auth";
 
 export default function Navbar() {
   const { siteName } = useAdvancedDashboardProvider();
@@ -28,7 +29,7 @@ export default function Navbar() {
                     <summary>Menu</summary>
                     <ul className="p-2 bg-base-100">
                       <li>
-                        <a>Logout</a>
+                        <a onClick={logUserOut}>Logout</a>
                       </li>
                     </ul>
                   </details>
