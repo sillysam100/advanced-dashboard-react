@@ -35,29 +35,31 @@ export async function logUserIn(
   username: string,
   password: string
 ): Promise<boolean> {
-  try {
-    const response = await fetch("/api/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+  return new Promise<boolean>(async (resolve, reject) => {
+    try {
+      const response = await fetch("/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const res = await response.json();
-    if (res.token) {
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("username", res.user.username);
-      localStorage.setItem("userId", res.user.userId);
-      window.location.href = "/dashboard";
-      return true;
-    } else {
-      return false;
+      const res = await response.json();
+      if (res.token) {
+        console.log(res);
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("username", res.user.username);
+        localStorage.setItem("role", res.user.role);
+        window.location.href = "/dashboard";
+        resolve(true);
+      } else {
+        reject(new Error("Login failed"));
+      }
+    } catch (err) {
+      reject(err);
     }
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
+  });
 }
 
 export async function logUserOut(): Promise<boolean> {
