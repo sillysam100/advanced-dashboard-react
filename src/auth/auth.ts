@@ -1,41 +1,50 @@
+import { IUser } from "../types/User";
 import { apiPost } from "../utils/api";
 
-export async function validateKey(): Promise<boolean> {
-  try {
-    const response = await apiPost("/api/user/validate", {});
-    const res = await response.json();
-    if (res.message === "Token is valid.") {
-      return true;
-    } else {
-      return false;
+export async function validateKey(): Promise<IUser> {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await apiPost("/api/user/validate", {});
+      const res = await response.json();
+      if (res.user) {
+        resolve(res.user);
+      } else {
+        reject("Token is not valid");
+      }
+    } catch (err) {
+      console.error(err);
+      reject(err);
     }
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
+  });
 }
 
-export async function checkAuth(): Promise<boolean> {
-  const token = localStorage.getItem("token");
-  if (!token) return Promise.resolve(false);
-  try {
-    const res = await validateKey();
-    if (!res) {
-      localStorage.removeItem("token");
-      return Promise.resolve(false);
+export async function checkAuth(): Promise<IUser> {
+  return new Promise(async (resolve, reject) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      reject("No token found");
+      return;
     }
-    return Promise.resolve(true);
-  } catch (err) {
-    console.error(err);
-    return Promise.resolve(false);
-  }
+    try {
+      const user = await validateKey();
+      if (!user) {
+        localStorage.removeItem("token");
+        reject();
+      } else {
+        resolve(user);
+      }
+    } catch (err) {
+      console.error(err);
+      reject();
+    }
+  });
 }
 
 export async function logUserIn(
   username: string,
   password: string
-): Promise<boolean> {
-  return new Promise<boolean>(async (resolve, reject) => {
+): Promise<IUser> {
+  return new Promise<IUser>(async (resolve, reject) => {
     try {
       const response = await fetch("/api/user/login", {
         method: "POST",
@@ -51,8 +60,7 @@ export async function logUserIn(
         localStorage.setItem("token", res.token);
         localStorage.setItem("username", res.user.username);
         localStorage.setItem("role", res.user.role);
-        window.location.href = "/dashboard";
-        resolve(true);
+        resolve(res.user);
       } else {
         reject(new Error("Login failed"));
       }

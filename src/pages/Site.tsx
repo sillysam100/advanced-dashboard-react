@@ -10,11 +10,18 @@ export default function SitePage() {
   const { id } = useParams<{ id: string }>();
   const [pages, setPages] = useState<IPage[]>([]);
   const [pageId, setPageId] = useState<string>("");
-  const { setLoading, setSiteName } = useAdvancedDashboardProvider();
+  const { setLoading, setSiteName, setShowEditButton } =
+    useAdvancedDashboardProvider();
 
   if (!id) {
     return <div>Invalid site id</div>;
   }
+
+  useEffect(() => {
+    if (pages.length > 0) {
+      setShowEditButton(true);
+    }
+  }, [pages]);
 
   useEffect(() => {
     setLoading(true);

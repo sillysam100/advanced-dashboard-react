@@ -1,10 +1,13 @@
 import FullWidthProgress from "./FullWidthProgress";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { logUserOut } from "../auth/auth";
 
 export default function Navbar() {
-  const { siteName } = useAdvancedDashboardProvider();
+  const { siteName, isAdmin, showEditButton, setShowEditPage } =
+    useAdvancedDashboardProvider();
 
   return (
     <nav className="shadow-lg">
@@ -22,6 +25,14 @@ export default function Navbar() {
             <h1 className="text-2xl font-bold">{siteName}</h1>
           </div>
           <div className="flex items-center">
+            {isAdmin && showEditButton && (
+              <button
+                className="btn btn-ghost"
+                onClick={() => setShowEditPage(true)}
+              >
+                <FontAwesomeIcon icon={faPencil} />
+              </button>
+            )}
             <div className="flex-none">
               <ul className="menu menu-horizontal px-1">
                 <li>

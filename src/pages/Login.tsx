@@ -1,18 +1,23 @@
 import { logUserIn } from "../auth/auth";
 import { useState } from "react";
 import Toast from "../components/Toast";
+import { useNavigate } from "react-router-dom";
+import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<boolean>(false);
+  const { setIsAdmin } = useAdvancedDashboardProvider();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     logUserIn(username, password)
       .then((res) => {
-        console.log(res);
+        setIsAdmin(res.role === "admin");
+        navigate("/");
       })
       .catch(() => {
         setError(true);

@@ -5,6 +5,7 @@ import { ILayoutEntry } from "../types/Page";
 interface RegisterProps {
   register: IRegister;
   layout?: ILayoutEntry;
+  edit: boolean;
   onChange: (register: IRegister) => void;
 }
 
@@ -19,8 +20,9 @@ function Register({ register, layout, onChange }: RegisterProps) {
   if (register.controlType === "read") {
     return (
       <div
-        className={`stats shadow col-span-${layout?.cols || 2} row-span-${layout?.rows || 2
-          }`}
+        className={`stats shadow col-span-${layout?.cols || 2} row-span-${
+          layout?.rows || 2
+        }`}
       >
         <div className="stat">
           <div className="stat-title  font-semibold">{register.name}</div>
@@ -34,8 +36,9 @@ function Register({ register, layout, onChange }: RegisterProps) {
   } else if (register.controlType === "write") {
     return (
       <div
-        className={`stats shadow col-span-${layout?.cols || 2} row-span-${layout?.rows || 2
-          }`}
+        className={`stats shadow col-span-${layout?.cols || 2} row-span-${
+          layout?.rows || 2
+        }`}
       >
         <div className="stat">
           <div className="stat-title font-semibold text-black">

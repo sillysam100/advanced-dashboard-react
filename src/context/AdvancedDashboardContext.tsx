@@ -2,8 +2,14 @@ import { createContext, useState, useContext, ReactNode } from "react";
 
 export const AdvancedDashboardContext = createContext({
   loading: false,
-  setLoading: (_: boolean) => {},
   siteName: "",
+  isAdmin: false,
+  showEditButton: false,
+  showEditPage: false,
+  setShowEditPage: (_: boolean) => {},
+  setShowEditButton: (_: boolean) => {},
+  setLoading: (_: boolean) => {},
+  setIsAdmin: (_: boolean) => {},
   setSiteName: (_: string) => {},
 });
 
@@ -16,10 +22,24 @@ export function AdvancedDashboardProvider({
 }: AdvancedDashboardProviderProps) {
   const [loading, setLoading] = useState(false);
   const [siteName, setSiteName] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showEditButton, setShowEditButton] = useState(false);
+  const [showEditPage, setShowEditPage] = useState(false);
 
   return (
     <AdvancedDashboardContext.Provider
-      value={{ loading, setLoading, siteName, setSiteName }}
+      value={{
+        showEditPage,
+        setShowEditPage,
+        showEditButton,
+        setShowEditButton,
+        loading,
+        setLoading,
+        siteName,
+        setSiteName,
+        isAdmin,
+        setIsAdmin,
+      }}
     >
       {children}
     </AdvancedDashboardContext.Provider>
