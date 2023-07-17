@@ -2,11 +2,11 @@ import FullWidthProgress from "./FullWidthProgress";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { logUserOut } from "../auth/auth";
 
 export default function Navbar() {
-  const { siteName, isAdmin, showEditButton, setShowEditPage } =
+  const { siteName, isAdmin, showEditButton, setShowEditPage, showEditPage } =
     useAdvancedDashboardProvider();
 
   return (
@@ -24,15 +24,26 @@ export default function Navbar() {
           <div className="flex items-center">
             <h1 className="text-2xl font-bold">{siteName}</h1>
           </div>
+
           <div className="flex items-center">
-            {isAdmin && showEditButton && (
-              <button
-                className="btn btn-ghost"
-                onClick={() => setShowEditPage(true)}
-              >
-                <FontAwesomeIcon icon={faPencil} />
-              </button>
+            {showEditButton && isAdmin && (
+              <label className="swap swap-flip btn btn-ghost">
+                <input type="checkbox" />
+                <div
+                  className={`swap-off`}
+                  onClick={() => setShowEditPage(true)}
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                </div>
+                <div
+                  className={`swap-on`}
+                  onClick={() => setShowEditPage(false)}
+                >
+                  <FontAwesomeIcon icon={faFloppyDisk} />
+                </div>
+              </label>
             )}
+
             <div className="flex-none">
               <ul className="menu menu-horizontal px-1">
                 <li>

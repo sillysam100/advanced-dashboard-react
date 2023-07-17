@@ -1,20 +1,27 @@
 import { useRef, useEffect, useState, useCallback } from "react";
-import { getRegisters } from "../api/page";
-import { IRegister } from "../types/Register";
 import Register from "../components/Register";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import ReloadPagePopup from "../components/ReloadPagePopup";
 import { IPage } from "../types/Page";
+import { IValue } from "../types/Values";
+import { ILayoutEntry } from "../types/Page";
+import { IRegister } from "../types/Register";
+import { faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AddRegisterToPageModal from "./AddRegisterToPageModal";
 
 interface PageProps {
   pageId: string;
   page: IPage;
+  refreshPage: () => void;
+  siteId: string;
 }
 
-export default function Page({ pageId, page }: PageProps) {
-  const [registers, setRegisters] = useState<IRegister[]>([]);
+export default function Page({ pageId, page, refreshPage, siteId }: PageProps) {
   const [showReloadPagePopup, setShowReloadPagePopup] = useState(false);
-  const { setLoading, setSiteName, showEditPage, setShowEditPage } =
+  const [showAddRegisterModal, setShowAddRegisterModal] = useState(false);
+  const [values, setValues] = useState<IValue[]>([]);
+  const { setLoading, setSiteName, showEditPage } =
     useAdvancedDashboardProvider();
   const ws = useRef<WebSocket | null>(null);
 
@@ -24,15 +31,7 @@ export default function Page({ pageId, page }: PageProps) {
 
   useEffect(() => {
     setLoading(true);
-    getRegisters(pageId)
-      .then((registerData) => {
-        setRegisters(registerData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
+    setLoading(false);
   }, [pageId, setLoading, setSiteName]);
 
   useEffect(() => {
@@ -42,25 +41,41 @@ export default function Page({ pageId, page }: PageProps) {
     ws.current.onopen = () => {
       console.log("WebSocket connection established");
       setShowReloadPagePopup(false);
+
+      // Sending the "subscribe" message over WebSocket
+      const registerIds = page.layout.map((layout) => layout.registerId);
+      const subscribeMessage = JSON.stringify({
+        type: "subscribe",
+        registerIds,
+      });
+      ws.current?.send(subscribeMessage);
     };
 
     ws.current.onerror = (error) => {
       console.error("WebSocket error observed:", error);
     };
 
-    ws.current.onmessage = (message) => {
-      try {
-        const data = JSON.parse(message.data);
-        setRegisters((prevRegisters) =>
-          prevRegisters.map((register) =>
-            register._id === data.registerId
-              ? { ...register, value: data.value }
-              : register
-          )
+    ws.current.onmessage = (event) => {
+      // Handling incoming WebSocket messages
+      const data: IValue = JSON.parse(event.data);
+
+      console.log("WebSocket message received:");
+      console.log(data);
+
+      setValues((prevValues) => {
+        const index = prevValues.findIndex(
+          (value) => value.registerId === data.registerId
         );
-      } catch (e) {
-        console.error(e);
-      }
+        if (index === -1) {
+          // If the registerId doesn't exist in the array yet, add it.
+          return [...prevValues, data];
+        } else {
+          // Otherwise, update the existing value.
+          const newValues = [...prevValues];
+          newValues[index] = data;
+          return newValues;
+        }
+      });
     };
 
     ws.current.onclose = (event) => {
@@ -71,32 +86,39 @@ export default function Page({ pageId, page }: PageProps) {
     return () => {
       ws.current?.close();
     };
-  }, []);
-
-  const handleRegisterChange = useCallback((register: IRegister) => {
-    if (ws.current) {
-      ws.current.send(JSON.stringify(register));
-    }
-  }, []);
+  }, [page.layout]);
 
   const handleReloadPage = useCallback(() => {
     window.location.reload();
   }, []);
 
+  const handleRegisterChange = (changedRegister: IRegister) => {
+    const changeMessage = JSON.stringify({
+      type: "change",
+      register: changedRegister,
+    });
+    ws.current?.send(changeMessage);
+  };
+
   return (
     <div className="m-3 grid grid-cols-10 gap-3">
       {showReloadPagePopup && <ReloadPagePopup reloadPage={handleReloadPage} />}
-      {registers.map((register) => (
-        <Register
-          key={register._id}
-          register={register}
-          edit={showEditPage}
-          layout={page.layout.find(
-            (layout) => layout.registerId === register._id
-          )}
-          onChange={handleRegisterChange}
-        />
-      ))}
+      {page.layout
+        .sort((a, b) => a.position - b.position)
+        .map((layout: ILayoutEntry) => (
+          <Register
+            key={layout.registerId}
+            layout={layout}
+            edit={showEditPage}
+            onChange={handleRegisterChange}
+            pageId={pageId}
+            refreshPage={refreshPage}
+            value={values.find(
+              (value) => value.registerId === layout.registerId
+            )}
+          />
+        ))}
+      {showEditPage && <AddRegisterToPageModal siteId={siteId} />}
     </div>
   );
 }

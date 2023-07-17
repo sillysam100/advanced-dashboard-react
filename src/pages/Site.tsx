@@ -45,6 +45,12 @@ export default function SitePage() {
 
   const currentPage = pages.find((page) => page._id === pageId);
 
+  const handleRefreshPage = () => {
+    getPages(id).then((pages) => {
+      setPages(pages);
+    });
+  };
+
   return (
     <div>
       <div className="flex justify-center mt-3">
@@ -64,7 +70,12 @@ export default function SitePage() {
       </div>
       <div className="mt-3">
         {pageId.length > 1 && currentPage && (
-          <Page pageId={pageId} page={currentPage} />
+          <Page
+            pageId={pageId}
+            page={currentPage}
+            siteId={id}
+            refreshPage={handleRefreshPage}
+          />
         )}
       </div>
     </div>

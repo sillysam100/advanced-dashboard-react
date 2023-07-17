@@ -1,3 +1,4 @@
 export interface IValue {
-  _id: string;
+  registerId: string;
+  value: string;
 }
