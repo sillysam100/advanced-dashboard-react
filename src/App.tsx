@@ -1,9 +1,10 @@
-import LoginPage from "./pages/Login";
-import DashboardPage from "./pages/Dashboard";
-import SitePage from "./pages/Site";
+import LoginPage from "./pages/iiicontrol/Login";
+import DashboardPage from "./pages/iiicontrol/Dashboard";
+import SitePage from "./pages/iiicontrol/Site";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./auth/PrivateRoute";
 import { AdvancedDashboardProvider } from "./context/AdvancedDashboardContext";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -15,12 +16,20 @@ function App() {
             path="*"
             element={
               <PrivateRoute>
-                <DashboardPage />
+                <Home />
               </PrivateRoute>
             }
           />
           <Route
-            path="/dashboard"
+            path="/home"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/iiicontrol/dashboard"
             element={
               <PrivateRoute>
                 <DashboardPage />
@@ -28,7 +37,7 @@ function App() {
             }
           />
           <Route
-            path="/site/:id"
+            path="/iiicontrol/site/:id"
             element={
               <PrivateRoute>
                 <SitePage />

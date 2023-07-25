@@ -3,14 +3,14 @@ import { createContext, useState, useContext, ReactNode } from "react";
 export const AdvancedDashboardContext = createContext({
   loading: false,
   siteName: "",
-  isAdmin: false,
   showEditButton: false,
   showEditPage: false,
+  location: "",
   setShowEditPage: (_: boolean) => {},
   setShowEditButton: (_: boolean) => {},
   setLoading: (_: boolean) => {},
-  setIsAdmin: (_: boolean) => {},
   setSiteName: (_: string) => {},
+  setLocation: (_: string) => {},
 });
 
 type AdvancedDashboardProviderProps = {
@@ -22,9 +22,9 @@ export function AdvancedDashboardProvider({
 }: AdvancedDashboardProviderProps) {
   const [loading, setLoading] = useState(false);
   const [siteName, setSiteName] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
   const [showEditButton, setShowEditButton] = useState(false);
   const [showEditPage, setShowEditPage] = useState(false);
+  const [location, setLocation] = useState("");
 
   return (
     <AdvancedDashboardContext.Provider
@@ -37,8 +37,8 @@ export function AdvancedDashboardProvider({
         setLoading,
         siteName,
         setSiteName,
-        isAdmin,
-        setIsAdmin,
+        location,
+        setLocation,
       }}
     >
       {children}

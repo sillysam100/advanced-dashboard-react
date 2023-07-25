@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import { IPage } from "../types/Page";
-import Page from "../components/Page";
-import { getPages } from "../api/page";
+import { IPage } from "../../types/Page";
+import Page from "../../components/Page";
+import { getPages } from "../../api/page";
 import { useEffect, useState } from "react";
-import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
-import { getSite } from "../api/site";
+import { getSite } from "../../api/site";
+import { useAdvancedDashboardProvider } from "../../context/AdvancedDashboardContext";
 
 export default function SitePage() {
   const { id } = useParams<{ id: string }>();

@@ -59,7 +59,6 @@ export async function logUserIn(
         console.log(res);
         localStorage.setItem("token", res.token);
         localStorage.setItem("username", res.user.username);
-        localStorage.setItem("role", res.user.role);
         resolve(res.user);
       } else {
         reject(new Error("Login failed"));

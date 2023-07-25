@@ -1,7 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useEffect, useState, ReactNode } from "react";
 import { checkAuth } from "./auth";
-import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import Navbar from "../components/Navbar";
 
 interface PrivateRouteProps {
@@ -11,13 +10,11 @@ interface PrivateRouteProps {
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { setIsAdmin } = useAdvancedDashboardProvider();
 
   useEffect(() => {
     checkAuth()
-      .then((res) => {
+      .then(() => {
         setAuthenticated(true);
-        setIsAdmin(res.role === "admin");
         setLoading(false);
       })
       .catch(() => {

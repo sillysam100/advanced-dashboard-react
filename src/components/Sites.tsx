@@ -12,7 +12,10 @@ export default function Sites({ sites }: SitesProps) {
         <div key={site._id} className="card bordered bg-neutral-content">
           <div className="card-body">
             <h2 className="card-title ">{site.name}</h2>
-            <Link to={`/site/${site._id}`} className="btn btn-primary">
+            <Link
+              to={`/iii-control/site/${site._id}`}
+              className="btn btn-primary"
+            >
               View
             </Link>
           </div>

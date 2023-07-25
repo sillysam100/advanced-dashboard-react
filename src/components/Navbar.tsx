@@ -2,11 +2,17 @@ import FullWidthProgress from "./FullWidthProgress";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencil,
+  faFloppyDisk,
+  faLocation,
+  faAt,
+  faWheelchair,
+} from "@fortawesome/free-solid-svg-icons";
 import { logUserOut } from "../auth/auth";
 
 export default function Navbar() {
-  const { siteName, isAdmin, showEditButton, setShowEditPage, showEditPage } =
+  const { siteName, showEditButton, setShowEditPage, showEditPage, location } =
     useAdvancedDashboardProvider();
 
   return (
@@ -16,9 +22,19 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="-ml-2 mr-2 flex items-center">
-              <Link to="/" className="text-2xl font-bold">
-                Dashboard
+              <Link to="/home" className="text-2xl font-bold">
+                III Admin
               </Link>
+              <h1 className="ml-5 text-sm breadcrumbs bg-gray-100 p-3 rounded-md">
+                <ul>
+                  <li>
+                    <Link to="/home" className="">
+                      Home
+                    </Link>
+                  </li>
+                  <li>{location}</li>
+                </ul>
+              </h1>
             </div>
           </div>
           <div className="flex items-center">
@@ -26,7 +42,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center">
-            {showEditButton && isAdmin && (
+            {showEditButton && (
               <label className="swap swap-flip btn btn-ghost">
                 <input type="checkbox" />
                 <div
