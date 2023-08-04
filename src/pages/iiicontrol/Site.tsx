@@ -1,10 +1,13 @@
 import { useParams } from "react-router-dom";
-import { IPage } from "../../types/Page";
-import Page from "../../components/Page";
-import { getPages } from "../../api/page";
+import { IPage } from "../../types/iiicontrol/Page";
+import Page from "../../components/iiicontrol/Page";
+import { getPages } from "../../api/iiicontrol/page";
 import { useEffect, useState } from "react";
-import { getSite } from "../../api/site";
+import { getSite } from "../../api/iiicontrol/site";
 import { useAdvancedDashboardProvider } from "../../context/AdvancedDashboardContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import AddPageModal from "../../components/iiicontrol/AddPageModal";
 
 export default function SitePage() {
   const { id } = useParams<{ id: string }>();
@@ -23,15 +26,16 @@ export default function SitePage() {
     }
   }, [pages]);
 
-  useEffect(() => {
+  const loadPages = async () => {
     setLoading(true);
     getPages(id).then((pages) => {
       setPages(pages);
       setLoading(false);
     });
-  }, [id]);
+  };
 
   useEffect(() => {
+    loadPages();
     getSite(id).then((site) => {
       setSiteName(site.name);
     });
@@ -53,12 +57,12 @@ export default function SitePage() {
 
   return (
     <div>
-      <div className="flex justify-center mt-3">
+      <div className="mt-3 flex justify-center">
         <div className="tabs">
           {pages.map((page) => (
             <div
               key={page._id}
-              className={`tab tab-bordered ${
+              className={`tab-bordered tab ${
                 pageId === page._id ? "tab-active" : ""
               }`}
               onClick={() => setPageId(page._id || "")}
@@ -66,6 +70,7 @@ export default function SitePage() {
               {page.name}
             </div>
           ))}
+          <AddPageModal reloadTrigger={loadPages} siteId={id} />
         </div>
       </div>
       <div className="mt-3">

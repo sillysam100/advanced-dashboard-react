@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useAdvancedDashboardProvider } from "../context/AdvancedDashboardContext";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGun, faSliders, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const { setLocation } = useAdvancedDashboardProvider();
@@ -10,17 +12,19 @@ export default function Home() {
   }, []);
   return (
     <>
-      <div className="flex justify-center">
-        <h1 className="text-2xl font-bold mt-3 flex items-center">
-          International Information Index{" "}
-          <div className="bg-green-400 rounded-md px-2 py-1 ml-3">
-            Home Page
-          </div>
-        </h1>
-      </div>
-      <div className="grid grid-cols-5 m-1 gap-1">
-        <Link to="/iiicontrol/dashboard" className="btn btn-primary">
-          III Control
+      <div className="m-5 grid grid-cols-10 gap-5">
+        <Link to="/iiicontrol/dashboard" className="btn-primary btn col-span-2">
+          III Control <FontAwesomeIcon icon={faSliders} />
+        </Link>
+        <Link
+          to="/iiicustomers/dashboard"
+          className="btn-primary btn col-span-2"
+        >
+          III Customers <FontAwesomeIcon icon={faUsers} />
+        </Link>
+        <Link to="/tdaps/dashboard" className="btn-primary btn col-span-3">
+          Threat Detection And Prevention System(TDAPS){" "}
+          <FontAwesomeIcon icon={faGun} />
         </Link>
       </div>
     </>

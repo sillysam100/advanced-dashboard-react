@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, ReactNode } from "react";
+import { IAlert } from "../types/Alert";
 
 export const AdvancedDashboardContext = createContext({
   loading: false,
@@ -6,10 +7,12 @@ export const AdvancedDashboardContext = createContext({
   showEditButton: false,
   showEditPage: false,
   location: "",
+  alerts: [] as IAlert[] | null,
   setShowEditPage: (_: boolean) => {},
   setShowEditButton: (_: boolean) => {},
   setLoading: (_: boolean) => {},
   setSiteName: (_: string) => {},
+  setAlerts: (_: IAlert[] | null) => {},
   setLocation: (_: string) => {},
 });
 
@@ -25,6 +28,7 @@ export function AdvancedDashboardProvider({
   const [showEditButton, setShowEditButton] = useState(false);
   const [showEditPage, setShowEditPage] = useState(false);
   const [location, setLocation] = useState("");
+  const [alerts, setAlerts] = useState<IAlert[] | null>([]);
 
   return (
     <AdvancedDashboardContext.Provider
@@ -39,6 +43,8 @@ export function AdvancedDashboardProvider({
         setSiteName,
         location,
         setLocation,
+        alerts,
+        setAlerts,
       }}
     >
       {children}

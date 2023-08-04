@@ -8,8 +8,10 @@ import {
   faLocation,
   faAt,
   faWheelchair,
+  faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { logUserOut } from "../auth/auth";
+import Alerts from "./Alerts";
 
 export default function Navbar() {
   const { siteName, showEditButton, setShowEditPage, showEditPage, location } =
@@ -19,13 +21,13 @@ export default function Navbar() {
     <nav className="shadow-lg">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <FullWidthProgress />
-        <div className="flex justify-between h-16">
+        <div className="flex h-16 justify-between">
           <div className="flex">
             <div className="-ml-2 mr-2 flex items-center">
               <Link to="/home" className="text-2xl font-bold">
                 III Admin
               </Link>
-              <h1 className="ml-5 text-sm breadcrumbs bg-gray-100 p-3 rounded-md">
+              <h1 className="breadcrumbs ml-5 rounded-md bg-gray-100 p-3 text-sm">
                 <ul>
                   <li>
                     <Link to="/home" className="">
@@ -43,7 +45,7 @@ export default function Navbar() {
 
           <div className="flex items-center">
             {showEditButton && (
-              <label className="swap swap-flip btn btn-ghost">
+              <label className="swap btn-ghost swap-flip btn">
                 <input type="checkbox" />
                 <div
                   className={`swap-off`}
@@ -61,11 +63,12 @@ export default function Navbar() {
             )}
 
             <div className="flex-none">
+              <Alerts />
               <ul className="menu menu-horizontal px-1">
                 <li>
                   <details>
                     <summary>Menu</summary>
-                    <ul className="p-2 bg-base-100">
+                    <ul className="bg-base-100 p-2">
                       <li>
                         <a onClick={logUserOut}>Logout</a>
                       </li>
